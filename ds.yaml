@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: hosts-manager
+  namespace: kube-system
+  labels:
+    app: hosts-manager
+spec:
+  selector:
+    matchLabels:
+      app: hosts-manager
+  template:
+    metadata:
+      labels:
+        app: hosts-manager
+    spec:
+      containers:
+      - name: hosts-manager
+        image: hosts-manager:latest
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true  # Required to modify /etc/hosts
+        volumeMounts:
+        - name: hosts-file
+          mountPath: /etc/hosts
+        - name: custom-hosts
+          mountPath: /app/hosts
+          subPath: hosts
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+      volumes:
+      - name: hosts-file
+        hostPath:
+          path: /etc/hosts
+          type: File
+      - name: custom-hosts
+        configMap:
+          name: hosts-manager-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hosts-manager-config
+  namespace: kube-system
+data:
+  hosts: |
+    # ================ hosts manager start ================
+    sim-harbor.cargo.io  10.192.74.87
+    local-harbor.cargo.io 10.192.68.103
+    # ================ hosts manager end ================

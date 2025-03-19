@@ -1,0 +1,6 @@
+
+
+# ================ hosts manager start ================
+sim-harbor.cargo.io  10.192.74.87
+local-harbor.cargo.io 10.192.68.103
+# ================ hosts manager end ================

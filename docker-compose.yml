@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  hosts-manager:
+    build: .
+    container_name: hosts-manager
+    restart: unless-stopped
+    volumes:
+      # Mount the hosts file from the host machine
+      - ./hosts:/app/hosts
+      # Mount the host's /etc/hosts file to allow the container to update it
+      - /etc/hosts:/etc/hosts
+    # Run with privileged mode to allow writing to /etc/hosts
+    privileged: true
