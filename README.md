@@ -33,10 +33,10 @@ python main.py
 python main.py --update-once
 
 # 指定自定义 hosts 文件
-python main.py --hosts-file /path/to/your/hosts
+python main.py --hosts-file /path/to/your/hosts  # 默认为 /data2/code/hosts-manager/hosts
 
 # 更改更新间隔（以秒为单位）
-python main.py --interval 300  # 每5分钟检查一次
+python main.py --interval 300  # 每5分钟检查一次（默认为60秒）
 ```
 
 ### 自定义 Hosts 文件格式
@@ -44,10 +44,10 @@ python main.py --interval 300  # 每5分钟检查一次
 您的自定义 hosts 文件应在标记行之间包含条目：
 
 ```
-# ================ hosts manager ================
+# ================ hosts manager start ================
 192.168.1.100  myserver.local
 192.168.1.101  database.local
-# ================ hosts manager ================
+# ================ hosts manager end ================
 ```
 
 只有这些标记之间的内容会被工具管理。
@@ -95,7 +95,7 @@ sudo systemctl status hosts-manager
 
 ## 日志
 
-默认情况下，日志会同时写入 stdout 和 `/tmp/hosts-manager.log`。使用 Docker 时，日志会写入挂载的日志目录。
+日志仅输出到 stdout（标准输出）。使用 Docker 时，可以通过 Docker 日志系统查看日志。
 
 ## Docker 使用方法
 
